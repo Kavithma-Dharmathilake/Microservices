@@ -29,11 +29,11 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        docker build --no-cache -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/sliit-ctse:v2 .
+        docker build --no-cache -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/sliit-ctse:latest .
 
     - name: Push Docker Image to GCR
       run: |
-        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/sliit-ctse:v2
+        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/sliit-ctse:latest
 
     - name: Get GKE credentials
       run: |
