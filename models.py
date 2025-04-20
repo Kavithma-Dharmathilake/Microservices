@@ -7,3 +7,11 @@ class UserCreate(BaseModel):
 class UserLogin(BaseModel):
     username: str
     password: str
+
+class ItemCreate(BaseModel):
+    name: str
+    price: float
+
+class ItemUpdate(BaseModel):
+    name: str
+    price: float

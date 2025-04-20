@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 import uvicorn
 from auth import router as auth_router
+from items import router as items_router
 from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
@@ -14,6 +15,7 @@ app.add_middleware(
 )
 
 app.include_router(auth_router, prefix="/auth", tags=["Auth"])
+app.include_router(items_router, prefix="/items", tags=["Items"])
 
 @app.get("/")
 def home():
