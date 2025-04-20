@@ -1,0 +1,34 @@
+name: CI/CD to Azure
+
+on:
+  push:
+    branches:
+      - master  # or 'main' depending on your repo
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🛎️ Checkout Code
+        uses: actions/checkout@v3
+
+      - name: 🛠️ Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: 🔐 Log in to Azure (Service Principal)
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: 🔐 Log in to Azure Container Registry (ACR)
+        run: echo ${{ secrets.ACR_PASSWORD }} | docker login ${{ secrets.ACR_LOGIN_SERVER }} -u ${{ secrets.ACR_USERNAME }} --password-stdin
+
+      - name: 🧱 Build Docker image
+        run: docker build -t auth-backend .
+
+      - name: 🏷️ Tag Docker image
+        run: docker tag auth-backend ${{ secrets.ACR_LOGIN_SERVER }}/auth-backend
+
+      - name: 🚀 Push Docker image to ACR
+        run: docker push ${{ secrets.ACR_LOGIN_SERVER }}/auth-backend
