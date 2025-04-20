@@ -10,14 +10,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Code
+    - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Google Cloud SDK
+    - name: Authenticate with Google Cloud
+      uses: google-github-actions/auth@v1
+      with:
+        credentials_json: '${{ secrets.GCP_SA_KEY }}'
+
+    - name: Set up gcloud CLI
       uses: google-github-actions/setup-gcloud@v1
       with:
         project_id: ${{ secrets.GCP_PROJECT_ID }}
-        service_account_key: ${{ secrets.GCP_SA_KEY }}
 
     - name: Authenticate Docker to GCR
       run: |
@@ -27,11 +31,11 @@ jobs:
       run: |
         docker build -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/sliit-ctse .
 
-    - name: Push Docker Image
+    - name: Push Docker Image to GCR
       run: |
         docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/sliit-ctse
 
-    - name: Set Kubernetes Credentials
+    - name: Get GKE credentials
       run: |
         gcloud container clusters get-credentials ctse-assignment --zone asia-south1-c --project=${{ secrets.GCP_PROJECT_ID }}
 
