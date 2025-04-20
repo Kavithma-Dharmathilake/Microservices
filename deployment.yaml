@@ -15,6 +15,7 @@ spec:
       containers:
         - name: sliit-ctse
           image: gcr.io/secure-bongo-453402-g0/sliit-ctse
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080
           env:
