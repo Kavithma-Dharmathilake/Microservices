@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: ctse-deployment
 spec:
-  replicas: 3
+  replicas: 1
   selector:
     matchLabels:
       app: ctse-app
@@ -13,7 +13,16 @@ spec:
         app: ctse-app
     spec:
       containers:
-      - name: sliit-ctse
-        image: gcr.io/secure-bongo-453402-g0/sliit-ctse
-        ports:
-        - containerPort: 8080
+        - name: sliit-ctse
+          image: gcr.io/secure-bongo-453402-g0/sliit-ctse
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SECRET_KEY
+              value: "your_jwt_secret_key"
+            - name: ALGORITHM
+              value: "HS256"
+            - name: ACCESS_TOKEN_EXPIRE_MINUTES
+              value: "30"  # Set the default expire minutes here
+            - name: MONGO_URI
+              value: "mongodb+srv://testing:Testing123@cluster0.koga8.mongodb.net/?retryWrites=true&w=majority"
