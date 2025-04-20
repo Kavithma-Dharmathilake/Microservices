@@ -29,11 +29,11 @@ jobs:
 
     - name: Build Docker Image
       run: |
-        docker build --no-cache -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/sliit-ctse .
+        docker build --no-cache -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/sliit-ctse:v2 .
 
     - name: Push Docker Image to GCR
       run: |
-        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/sliit-ctse
+        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/sliit-ctse:v2
 
     - name: Get GKE credentials
       run: |
@@ -46,4 +46,5 @@ jobs:
     - name: Deploy to GKE
       run: |
         kubectl apply -f deployment.yaml
+        kubectl rollout restart deployment ctse-deployment
         kubectl apply -f service.yaml
