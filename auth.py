@@ -26,6 +26,11 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     to_encode.update({"exp": expire})
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
+
+@router.post("/hello")
+def hello():
+    return {"message": "Hi there, CORS testing"}
+
 @router.post("/register")
 def register(user: UserCreate):
     if users_collection.find_one({"username": user.username}):
