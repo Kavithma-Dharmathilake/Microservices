@@ -46,5 +46,4 @@ jobs:
     - name: Deploy to GKE
       run: |
         kubectl apply -f deployment.yaml
-        kubectl rollout restart deployment ctse-deployment
         kubectl apply -f service.yaml
