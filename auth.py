@@ -27,7 +27,7 @@ def create_access_token(data: dict, expires_delta: timedelta = None):
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
 
-@router.post("/hello")
+@router.get("/hello")
 def hello():
     return {"message": "Hi there, CORS testing"}
 
