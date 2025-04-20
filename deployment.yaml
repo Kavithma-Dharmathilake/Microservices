@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ctse-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ctse-app
+  template:
+    metadata:
+      labels:
+        app: ctse-app
+    spec:
+      containers:
+      - name: sliit-ctse
+        image: gcr.io/secure-bongo-453402-g0/sliit-ctse
+        ports:
+        - containerPort: 8080
