@@ -1,22 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: service-1
+  name: order-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: service-1
+      app: order-service
   template:
     metadata:
       labels:
-        app: service-1
+        app: order-service
     spec:
       containers:
-      - name: service-1
-        image: us-west1-docker.pkg.dev/secure-bongo-453402-g0/cart-service/service-1
+      - name: order-service
+        image: gcr.io/secure-bongo-453402-g0/order-service
         ports:
-        - containerPort: 8070
-        envFrom:
-        - secretRef:
-            name: service-1-env  # Ref to a secret for DB connection if needed
+        - containerPort: 8060
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: order-service
+  ports:
+  - protocol: TCP
+    port: 8060
+    targetPort: 8060
