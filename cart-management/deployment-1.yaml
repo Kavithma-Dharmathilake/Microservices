@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: service-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: service-1
+  template:
+    metadata:
+      labels:
+        app: service-1
+    spec:
+      containers:
+      - name: service-1
+        image: us-west1-docker.pkg.dev/secure-bongo-453402-g0/cart-service/service-1
+        ports:
+        - containerPort: 8070
+        envFrom:
+        - secretRef:
+            name: service-1-env  # Ref to a secret for DB connection if needed
