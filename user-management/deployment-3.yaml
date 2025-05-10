@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: order-service
+  name: user-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: order-service
+      app: user-service
   template:
     metadata:
       labels:
-        app: order-service
+        app: user-service
     spec:
       containers:
-      - name: order-service
-        image: gcr.io/secure-bongo-453402-g0/order-service
+      - name: user-service
+        image: gcr.io/secure-bongo-453402-g0/user-service
         ports:
-        - containerPort: 8060
+        - containerPort: 8050
         env:
           - name: MONGO_URI
             value: "mongodb+srv://testing:Testing123@cluster0.koga8.mongodb.net/?retryWrites=true&w=majority"
@@ -24,12 +24,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: order-service
+  name: user-service
 spec:
   type: LoadBalancer
   selector:
-    app: order-service
+    app: user-service
   ports:
   - protocol: TCP
-    port: 8060
-    targetPort: 8060
+    port: 8050
+    targetPort: 8050

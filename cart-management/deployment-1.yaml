@@ -1,22 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: service-1
+  name: cart-service
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: service-1
+      app: cart-service
   template:
     metadata:
       labels:
-        app: service-1
+        app: cart-service
     spec:
       containers:
-      - name: service-1
-        image: us-west1-docker.pkg.dev/secure-bongo-453402-g0/cart-service/service-1
+      - name: cart-service
+        image: gcr.io/secure-bongo-453402-g0/cart-service
         ports:
         - containerPort: 8070
-        envFrom:
-        - secretRef:
-            name: service-1-env  # Ref to a secret for DB connection if needed
+        env:
+          - name: MONGO_URI
+            value: "mongodb+srv://testing:Testing123@cluster0.koga8.mongodb.net/?retryWrites=true&w=majority"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: cart-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: cart-service
+  ports:
+  - protocol: TCP
+    port: 8070
+    targetPort: 8070
