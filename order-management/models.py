@@ -10,4 +10,4 @@ class OrderCreate(BaseModel):
     items: List[OrderItem]
 
 class OrderUpdate(BaseModel):
-    status: str  # e.g., "pending", "shipped", "delivered"
+    status: str  # e.g
