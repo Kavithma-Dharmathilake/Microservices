@@ -4,7 +4,7 @@ from typing import Optional
 class UserCreate(BaseModel):
     username: str
     email: EmailStr
-    password: str  # you'd ideally hash this before saving!
+    password: str
 
 class UserUpdate(BaseModel):
     username: Optional[str] = None
