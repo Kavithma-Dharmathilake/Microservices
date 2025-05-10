@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>FastAPI Frontend</title>
+</head>
+<body>
+  <h1>Call FastAPI Backend</h1>
+
+  <button onclick="callBackend()">Send Request</button>
+
+  <pre id="result"></pre>
+
+  <script>
+    async function callBackend() {
+      const response = await fetch('http://34.47.230.99:8080/auth/hello');
+      const data = await response.json();
+      document.getElementById("result").innerText = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>
