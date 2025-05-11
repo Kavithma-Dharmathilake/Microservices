@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Order Management</title>
+</head>
+<body>
+  <h2>Order Management</h2>
+
+  <label>User ID: </label>
+  <input type="text" id="userId" /><br /><br />
+
+  <label>Item ID: </label>
+  <input type="text" id="itemId" />
+
+  <label>Quantity: </label>
+  <input type="number" id="quantity" value="1" /><br /><br />
+
+  <button onclick="createOrder()">Create Order</button>
+  <button onclick="getOrders()">Fetch Orders</button>
+
+  <h3>Your Orders</h3>
+  <ul id="ordersList"></ul>
+
+  <script>
+    const API_BASE = "http://localhost:8060/orders";
+
+    async function createOrder() {
+      const userId = document.getElementById("userId").value;
+      const itemId = document.getElementById("itemId").value;
+      const quantity = parseInt(document.getElementById("quantity").value);
+
+      const res = await fetch(`${API_BASE}/create`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          user_id: userId,
+          items: [{ item_id: itemId, quantity }],
+        }),
+      });
+
+      const data = await res.json();
+      alert(data.message);
+      getOrders();
+    }
+
+    async function getOrders() {
+      const userId = document.getElementById("userId").value;
+      const res = await fetch(`${API_BASE}/user/${userId}`);
+      const orders = await res.json();
+
+      const list = document.getElementById("ordersList");
+      list.innerHTML = "";
+
+      orders.forEach((order) => {
+        const li = document.createElement("li");
+        li.textContent = `ID: ${order.id} | Status: ${order.status} | Items: ${order.items.map(i => `${i.item_id} x${i.quantity}`).join(", ")}`;
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "Delete";
+        delBtn.onclick = () => deleteOrder(order.id);
+        li.appendChild(delBtn);
+        list.appendChild(li);
+      });
+    }
+
+    async function deleteOrder(orderId) {
+      await fetch(`${API_BASE}/delete/${orderId}`, { method: "DELETE" });
+      getOrders();
+    }
+  </script>
+</body>
+</html>
