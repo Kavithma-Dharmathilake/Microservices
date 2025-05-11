@@ -38,7 +38,7 @@ jobs:
         docker build --no-cache -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/cart-service:latest  ./cart-management
         docker build --no-cache -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/order-service:latest ./order-management
         docker build --no-cache -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/user-service:latest ./user-management
-        ocker build --no-cache -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/item-service:latest ./item-management
+        docker build --no-cache -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/item-service:latest ./item-management
 
     - name: Push Docker Image to GCR
       run: |
