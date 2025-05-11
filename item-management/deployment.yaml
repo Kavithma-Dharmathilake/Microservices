@@ -13,7 +13,7 @@ spec:
         app: item-service
     spec:
       containers:
-        - name: sliit-ctse
+        - name: item-service
           image: gcr.io/secure-bongo-453402-g0/item-service
           imagePullPolicy: Always
           ports:
@@ -27,3 +27,17 @@ spec:
               value: "30"  # Set the default expire minutes here
             - name: MONGO_URI
               value: "mongodb+srv://testing:Testing123@cluster0.koga8.mongodb.net/?retryWrites=true&w=majority"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: item-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: item-service
+  ports:
+  - protocol: TCP
+    port: 8050
+    targetPort: 8050
