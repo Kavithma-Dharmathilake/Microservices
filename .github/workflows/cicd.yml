@@ -38,6 +38,7 @@ jobs:
         docker build --no-cache -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/cart-service:latest  ./cart-management
         docker build --no-cache -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/order-service:latest ./order-management
         docker build --no-cache -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/user-service:latest ./user-management
+        ocker build --no-cache -t gcr.io/${{ secrets.GCP_PROJECT_ID }}/item-service:latest ./item-management
 
     - name: Push Docker Image to GCR
       run: |
@@ -45,6 +46,7 @@ jobs:
         docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/order-service:latest
         docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/cart-service:latest
         docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/user-service:latest
+        docker push gcr.io/${{ secrets.GCP_PROJECT_ID }}/item-service:latest
 
     - name: Get GKE credentials
       run: |
@@ -61,3 +63,5 @@ jobs:
         kubectl apply -f ./order-management/deployment-2.yaml
         kubectl apply -f ./cart-management/deployment-1.yaml
         kubectl apply -f ./user-management/deployment-3.yaml
+        kubectl apply -f ./item-management/deployment.yaml
+        kubectl apply -f ./item-management/service.yaml
