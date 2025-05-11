@@ -1,26 +1,27 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: user-service
+  name: user-service # Name of the deployment
 spec:
-  replicas: 1
+  replicas: 1 #1 pod replicas to run
   selector:
     matchLabels:
-      app: user-service
+      app: user-service # Matches pods with this label
   template:
     metadata:
       labels:
-        app: user-service
+        app: user-service # Label applied to the pod
     spec:
       containers:
-      - name: user-service
-        image: gcr.io/secure-bongo-453402-g0/user-service
-        ports:
-        - containerPort: 8050
-        env:
-          - name: MONGO_URI
-            value: "mongodb+srv://testing:Testing123@cluster0.koga8.mongodb.net/?retryWrites=true&w=majority"
+        - name: user-service # Name the container
+          image: gcr.io/secure-bongo-453402-g0/user-service # Docker image from Google Container Registry
+          ports:
+            - containerPort: 8050 # The port the container listens on
+          env:
+            - name: MONGO_URI #Env variable for MongoDB
+              value: "mongodb+srv://testing:Testing123@cluster0.koga8.mongodb.net/?retryWrites=true&w=majority"
 ---
+# Defines a Service to expose the deployment
 apiVersion: v1
 kind: Service
 metadata:
@@ -28,8 +29,8 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: user-service
+    app: user-service # Routes traffic to pods with this label
   ports:
-  - protocol: TCP
-    port: 8050
-    targetPort: 8050
+    - protocol: TCP
+      port: 8050 # External port exposed by the service
+      targetPort: 8050 # Port on the pod container that receives traffic
