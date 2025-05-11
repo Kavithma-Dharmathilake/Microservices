@@ -1,35 +1,43 @@
+# -----------------------------
+# Deployment for cart-service
+# -----------------------------
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cart-service
+  name: cart-service  # The name of the Deployment
 spec:
-  replicas: 1
+  replicas: 1  # Number of pods to run
   selector:
     matchLabels:
-      app: cart-service
+      app: cart-service  # Matches the pod template label below
   template:
     metadata:
       labels:
-        app: cart-service
+        app: cart-service  # Label used by the service to target this pod
     spec:
       containers:
-      - name: cart-service
-        image: gcr.io/secure-bongo-453402-g0/cart-service
+      - name: cart-service  # Container name inside the pod
+        image: gcr.io/secure-bongo-453402-g0/cart-service  # Docker image in Google Container Registry (GCR)
         ports:
-        - containerPort: 8070
+        - containerPort: 8070  # Port exposed by the container
         env:
-          - name: MONGO_URI
+          - name: MONGO_URI  # Environment variable passed into the container
             value: "mongodb+srv://testing:Testing123@cluster0.koga8.mongodb.net/?retryWrites=true&w=majority"
+            # MongoDB connection string used by the application (consider using a Kubernetes Secret for sensitive data)
+
 ---
+# -----------------------------
+# Service for cart-service
+# -----------------------------
 apiVersion: v1
 kind: Service
 metadata:
-  name: cart-service
+  name: cart-service  # The name of the Service
 spec:
-  type: LoadBalancer
+  type: LoadBalancer  # Exposes the service using an external cloud load balancer (GKE, etc.)
   selector:
-    app: cart-service
+    app: cart-service  # Forwards traffic to pods with this label
   ports:
   - protocol: TCP
-    port: 8070
-    targetPort: 8070
+    port: 8070        # External port on which the service is exposed
+    targetPort: 8070  # Internal port the container listens on
