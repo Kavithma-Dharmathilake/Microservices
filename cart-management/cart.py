@@ -44,7 +44,7 @@ def update_cart(cart_id: str, cart: CartUpdate):
 # Get a cart by user_id
 @router.get("/user/{user_id}")
 def get_cart_by_user(user_id: str):
-    cart = cart_collection.find_one({"user_id": user_id})
+    cart = cart_collection.find({"user_id": user_id})
     if not cart:
         raise HTTPException(status_code=404, detail="Cart not found")
     return cart_helper(cart)
