@@ -18,7 +18,7 @@ app.include_router(order_router, prefix="/orders", tags=["Orders"])
 
 @app.get("/")
 def home():
-    return {"message": "Welcome to the authentication microservice"}
+    return {"message": "Welcome to the  order-management microservice"}
 
 if __name__ == "__main__":
    uvicorn.run(app, host="0.0.0.0", port=8060)

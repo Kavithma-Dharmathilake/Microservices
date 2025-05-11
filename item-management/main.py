@@ -19,7 +19,7 @@ app.include_router(items_router, prefix="/items", tags=["Items"])
 
 @app.get("/")
 def home():
-    return {"message": "Welcome to the authentication microservice"}
+    return {"message": "Welcome to the item-management microservice"}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
